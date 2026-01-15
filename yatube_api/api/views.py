@@ -1,12 +1,15 @@
 from django.utils.functional import cached_property
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from .pagination import StandardResultsSetPagination
-from rest_framework import filters
+from rest_framework import filters, viewsets
+from rest_framework.permissions import (
+    IsAuthenticated, IsAuthenticatedOrReadOnly
+)
 
-from posts.models import Comment, Group, Post, Follow
+from posts.models import Comment, Follow, Group, Post
+from .pagination import StandardResultsSetPagination
 from .permissions import IsOwner
-from .serializers import CommentSerializer, GroupSerializer, PostSerializer, FollowSerializer
+from .serializers import (
+    CommentSerializer, FollowSerializer, GroupSerializer, PostSerializer
+)
 
 
 class PostViewSet(viewsets.ModelViewSet):
