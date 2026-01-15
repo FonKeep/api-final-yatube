@@ -2,6 +2,7 @@ from django.utils.functional import cached_property
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .pagination import StandardResultsSetPagination
+from rest_framework import filters
 
 from posts.models import Comment, Group, Post, Follow
 from .permissions import IsOwner
@@ -59,6 +60,11 @@ class FollowViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('following__username',)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
     def get_queryset(self):
         return Follow.objects.filter(user=self.request.user)
