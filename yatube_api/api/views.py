@@ -1,5 +1,5 @@
 from django.utils.functional import cached_property
-from rest_framework import filters, viewsets
+from rest_framework import filters, viewsets, mixins
 from rest_framework.permissions import (
     IsAuthenticated, IsAuthenticatedOrReadOnly
 )
@@ -39,7 +39,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     @cached_property
     def post_id(self):
-        return self.kwargs.get("post_id")
+        return self.kwargs.get('post_id')
 
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'destroy'):
@@ -59,7 +59,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         )
 
 
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowViewSet(mixins.CreateModelMixin,
+                    mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer

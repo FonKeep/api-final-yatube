@@ -8,11 +8,11 @@ router = DefaultRouter()
 
 router.register(
     r"posts/(?P<post_id>[^/.]+)/comments",
-    CommentViewSet, basename="comment"
+    CommentViewSet, basename='comment'
 )
-router.register("posts", PostViewSet)
-router.register("groups", GroupViewSet)
-router.register("follow", FollowViewSet)
+router.register('posts', PostViewSet)
+router.register('groups', GroupViewSet)
+router.register('follow', FollowViewSet)
 
 urlpatterns = [
     path('v1/jwt/', include('djoser.urls')),
